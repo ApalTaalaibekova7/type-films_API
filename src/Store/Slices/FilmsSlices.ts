@@ -2,16 +2,22 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { filmsAPI } from "../../API"
 import { Film, FullFilmData } from "../modules"
 
+// Тип состояния для фильмов
 type FilmsState = {
     films: Film[],
     loading: boolean
-    detail: null | FullFilmData
+    detail: null | FullFilmData,
+    videos: any[] // Массив для хранения видео (тизеров, трейлеров) 
 }
+// Начальное состояние
 const initialState: FilmsState = {
     films: [], 
     loading: false,
     detail: null,
+    videos: [] // Инициализируем пустым массивом
 }
+
+
 
 export const getListFilms = createAsyncThunk<Film[], void, {rejectValue: string}> (
     'films/getListFilms', 
@@ -52,6 +58,20 @@ export const getFilmByKeyword = createAsyncThunk<Film[], string, {rejectValue: s
     } 
 )
 
+// Пример асинхронного запроса для получения источников просмотра фильма
+export const  getFilmVideos = createAsyncThunk<any[], string,{rejectValue: string} >(
+    'films/ getFilmVideos',
+    async (filmId, { rejectWithValue }) => {
+        try {
+            const response = await filmsAPI.getVideosByFilmId(filmId); // API вызов для получения источников
+            return response.data.items
+        } catch (error) {
+            return rejectWithValue('Ошибка при получении видео');
+        }
+    }
+)
+
+
 const filmsSlice = createSlice({
     name: 'films',
     initialState,
@@ -78,7 +98,18 @@ const filmsSlice = createSlice({
         addCase(getFilmByKeyword.fulfilled, (state, action) => {
             state.loading = false
             state.films = action.payload
+        }) 
+        .addCase(getFilmVideos.pending, (state) => {
+            state.loading = true;
         })
+        .addCase(getFilmVideos.fulfilled, (state, action) => {
+            state.loading = false;
+            state.videos = action.payload; // Сохраняем видео в состоянии
+        })
+        .addCase(getFilmVideos.rejected, (state) => {
+            state.loading = false;
+        });
+        
     }
 })
 

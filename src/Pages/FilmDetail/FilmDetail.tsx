@@ -1,19 +1,20 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { UseAppDispatch, useAppSelector } from '../../hooks';
-import { getFilmById } from '../../Store/Slices/FilmsSlices';
+import { getFilmById, getFilmVideos } from '../../Store/Slices/FilmsSlices';
 
 const FilmDetail: FC = () => {
     const  [searchParams] = useSearchParams();
     const  [query] = useState(searchParams.get('filmId'))
     const dispatch = UseAppDispatch()
-    const {loading, detail } = useAppSelector(state => state.films)
+    const {loading, detail, videos } = useAppSelector(state => state.films)
 
     // console.log(detail) 
     
     useEffect (() => {
         if(query) {
-            dispatch(getFilmById(`${query}`))
+            dispatch(getFilmById(`${query}`));
+            dispatch(getFilmVideos(query)); // Запрашиваем видео по ID фильма
         }
     }, [query, dispatch])
 
@@ -39,6 +40,22 @@ const FilmDetail: FC = () => {
                         detail.genres.map((el, i) => <li key={i}> {el.genre}</li>)
                     }
                     </ol>
+
+                     {/* Отображение видео */}
+                     <h3>Видео:</h3>
+                    <ul>
+                        {videos &&  videos.length > 0 ? (
+                        videos.map((video: any, i: number) => (
+                            <li key={i}>
+                                <a href={video.url} target="_blank" rel="noopener noreferrer">
+                                    {video.name}
+                                </a>
+                            </li>
+                        ))
+                    ) : (
+                        <p>Видео отсутствует!</p> 
+                    )}
+                    </ul>
                 </>
             }
         </div>

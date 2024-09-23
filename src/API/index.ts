@@ -19,5 +19,9 @@ export const filmsAPI = {
     getByKeyword(keyword: string) {
         return instanse.get(`v2.1/films/search-by-keyword?keyword=${keyword}`)
     },
+    getVideosByFilmId(id: string) {
+        return instanse.get(`v2.2/films/${id}/videos`); // Эндпоинт для получения видео
+    },
     
-}
+};
+
