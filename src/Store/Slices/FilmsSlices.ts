@@ -19,7 +19,7 @@ export const getListFilms = createAsyncThunk<Film[], void, {rejectValue: string}
     'films/getListFilms', 
     async(_, { rejectWithValue }) => {
         const res = await filmsAPI.getAllFilms()
-        console.log(res);
+        // console.log(res);
 
         if(res.status !==200) {
             return rejectWithValue('Server Error')
@@ -41,6 +41,18 @@ export const getFilmById = createAsyncThunk<FullFilmData, string, {rejectValue: 
     } 
 )
 
+export const getFilmByKeyword = createAsyncThunk<Film[], string, {rejectValue: string}> (
+    'films/getFilmByKeyword', 
+    async(keyword, { rejectWithValue }) => {
+        const res = await filmsAPI.getByKeyword(keyword)
+        // console.log(res);
+
+        if(res.status !==200) {
+            return rejectWithValue('Server Error')
+        }
+        return res.data.films
+    } 
+)
 
 const filmsSlice = createSlice({
     name: 'films',
@@ -61,6 +73,13 @@ const filmsSlice = createSlice({
         addCase(getFilmById.fulfilled, (state, action) => {
             state.loading = false
             state.detail = action.payload
+        })
+        addCase(getFilmByKeyword.pending, (state) => {
+            state.loading = true
+        })
+        addCase(getFilmByKeyword.fulfilled, (state, action) => {
+            state.loading = false
+            state.films = action.payload
         })
     }
 })

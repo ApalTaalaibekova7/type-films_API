@@ -12,7 +12,7 @@ const Output: FC = () => {
         <section> 
             {
                 films.length > 0 ?
-                films.map(el => <FilmCard key={el.kinopoiskId} {...el}/>)
+                films.map(el => <FilmCard key={el.kinopoiskId || el.filmId} {...el}/>)
                 :
                 <h2>Фильмы не найдены!</h2>
             }

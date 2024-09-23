@@ -1,6 +1,7 @@
 
 export type Film = {
-    kinopoiskId: number
+    kinopoiskId?: number
+    filmId?: number
     nameOriginal: string | null
     nameRu: string | null
     posterUrl: string

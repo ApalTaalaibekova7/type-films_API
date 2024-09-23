@@ -15,5 +15,8 @@ export const filmsAPI = {
     },
     getById(id: string) {
         return instanse.get(`v2.2/films/${id}`)
+    },
+    getByKeyword(keyword: string) {
+        return instanse.get(`v2.1/films/search-by-keyword?keyword=${keyword}`)
     }
 }
