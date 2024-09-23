@@ -6,7 +6,7 @@ const Output: FC = () => {
     const {films, loading} = useAppSelector(state => state.films)
 
     if(loading) {
-        return <h1>Loading...</h1>
+        return <h1>Загрузка...</h1>
     }
     return (
         <section> 

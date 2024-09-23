@@ -18,4 +18,4 @@ export type FullFilmData = Film & {
     nameOriginal: null | string
     year: number
 
-    }
+}

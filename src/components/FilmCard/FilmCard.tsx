@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { Film } from '../../Store/modules';
 
-// interface FilmCardProps extends Film { } 
 
 const FilmCard: FC<Film> = ({filmId, kinopoiskId, nameRu, nameOriginal, posterUrl }) => {
     return (

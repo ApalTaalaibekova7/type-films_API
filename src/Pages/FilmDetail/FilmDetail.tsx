@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { UseAppDispatch, useAppSelector } from '../../hooks';
 import { getFilmById } from '../../Store/Slices/FilmsSlices';
-import { link } from 'fs';
 
 const FilmDetail: FC = () => {
     const  [searchParams] = useSearchParams();

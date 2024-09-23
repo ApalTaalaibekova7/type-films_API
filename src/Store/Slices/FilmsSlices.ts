@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { filmsAPI } from "../../API"
 import { Film, FullFilmData } from "../modules"
 
-
-
 type FilmsState = {
     films: Film[],
     loading: boolean
